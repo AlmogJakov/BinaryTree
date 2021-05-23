@@ -19,7 +19,9 @@ namespace ariel {
         public:
         BinaryTree() {head = nullptr;}
         ~BinaryTree() {
-            for (auto it=(*this).begin_postorder(); it!=(*this).end_postorder(); ++it) {delete it.node;}
+            for (auto it=(*this).begin_postorder(); it!=(*this).end_postorder(); ++it) {
+                delete it.node; 
+            }
         }
         
         BinaryTree& add_root(T v) {
@@ -85,7 +87,7 @@ namespace ariel {
                 if (node->left) {stack.push(node->left);}
                 return *this;
             }
-            int size() {return node->value.size();}
+            int size() {return string(node->value).size();}
             bool operator!=(const iterator_preorder& other) {return node != other.node;}
             iterator_preorder* operator->() {return this;}
             T& operator*() {return node->value;}
@@ -119,7 +121,7 @@ namespace ariel {
                 stack.pop();
                 return *this;
             }
-            int size() {return node->value.size();}
+            int size() {return string(node->value).size();}
             bool operator!=(const iterator_inorder& other) {return node != other.node;}
             iterator_inorder* operator->() {return this;}
             T& operator*() {return node->value;}
@@ -152,7 +154,7 @@ namespace ariel {
                 stack2.pop();
                 return *this;
             }
-            int size() {return node->value.size();}
+            int size() {return string(node->value).size();}
             bool operator!=(const iterator_postorder& other) {return node != other.node;}
             iterator_postorder* operator->() {return this;}
             T& operator*() {return node->value;}
@@ -204,6 +206,7 @@ namespace ariel {
                     if (node->left != NULL) {q.push(node->left);}
                     if (node->right != NULL) {q.push(node->right);}
                     nodeCount--;
+                    //delete node;
                 }
                 os << endl;
             }
@@ -212,6 +215,7 @@ namespace ariel {
 
         friend ostream& operator<<(ostream& os, const BinaryTree<T>& b) {
             return b.printLevelOrder(os);
+            //return os;
         }
     };
 }
