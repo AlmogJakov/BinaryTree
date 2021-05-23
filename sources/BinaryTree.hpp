@@ -19,9 +19,10 @@ namespace ariel {
         public:
         BinaryTree() {head = nullptr;}
         ~BinaryTree() {
-            for (auto it=(*this).begin_postorder(); it!=(*this).end_postorder(); ++it) {
-                delete it.node; 
-            }
+            /* The form of postorder() implementation is by fully inserting all the tree nodes into a stack
+                before retrieving any of them so the tree can be changed while running, In addition, since 
+                postorder is leftChild->rightChild->parent so childs memory released before the parent. */
+            for (auto it=(*this).begin_postorder(); it!=(*this).end_postorder(); ++it) {delete it.node;}
         }
         
         BinaryTree& add_root(T v) {
@@ -40,9 +41,7 @@ namespace ariel {
                         Node& temp = *(new Node(v2));
                         temp.parent = it.node;
                         it.node->left = &temp;
-                    } else {
-                        it.node->left->value = v2;
-                    }
+                    } else {it.node->left->value = v2;}
                 }
             }
             return *this;
@@ -58,9 +57,7 @@ namespace ariel {
                         Node& temp = *(new Node(v2));
                         temp.parent = it.node;
                         it.node->right = &temp;
-                    } else {
-                        it.node->right->value = v2;
-                    }
+                    } else {it.node->right->value = v2;}
                 }
             }
             return *this;
@@ -75,7 +72,7 @@ namespace ariel {
                 if (node->right) {stack.push(node->right);}
                 if (node->left) {stack.push(node->left);}
             };
-            iterator_preorder(int dummy):node(nullptr){ };
+            iterator_preorder():node(nullptr){ };
             iterator_preorder& operator++() {
                 if (stack.empty()) {
                     node = nullptr;
@@ -106,7 +103,7 @@ namespace ariel {
                 node = stack.top();
                 stack.pop();
             };
-            iterator_inorder(int dummy):node(nullptr){ };
+            iterator_inorder():node(nullptr){ };
             iterator_inorder& operator++(){
                 node = node->right;
                 if (stack.empty()&node==nullptr) {
@@ -144,7 +141,7 @@ namespace ariel {
                 node = stack2.top();
                 stack2.pop();
             }
-            iterator_postorder(int dummy):node(nullptr){ };
+            iterator_postorder():node(nullptr){ };
             iterator_postorder& operator++(){
                 if (stack2.empty()) {
                     node = nullptr;
@@ -162,19 +159,19 @@ namespace ariel {
 
         iterator_inorder begin() {return iterator_inorder(head);}
 
-        iterator_inorder end() {return iterator_inorder(0);}
+        iterator_inorder end() {return iterator_inorder();}
 
         iterator_preorder begin_preorder() {return iterator_preorder(head);}
 
-        iterator_preorder end_preorder() {return iterator_preorder(0);}
+        iterator_preorder end_preorder() {return iterator_preorder();}
 
         iterator_inorder begin_inorder() {return iterator_inorder(head);}
 
-        iterator_inorder end_inorder() {return iterator_inorder(0);}
+        iterator_inorder end_inorder() {return iterator_inorder();}
 
         iterator_postorder begin_postorder() {return iterator_postorder(head);}
         
-        iterator_postorder end_postorder() {return iterator_postorder(0);}
+        iterator_postorder end_postorder() {return iterator_postorder();}
         
 
         /* source: https://www.geeksforgeeks.org/print-level-order-traversal-line-line */
@@ -206,16 +203,12 @@ namespace ariel {
                     if (node->left != NULL) {q.push(node->left);}
                     if (node->right != NULL) {q.push(node->right);}
                     nodeCount--;
-                    //delete node;
                 }
                 os << endl;
             }
             return os;
         }
 
-        friend ostream& operator<<(ostream& os, const BinaryTree<T>& b) {
-            return b.printLevelOrder(os);
-            //return os;
-        }
+        friend ostream& operator<<(ostream& os, const BinaryTree<T>& b) {return b.printLevelOrder(os);}
     };
 }
