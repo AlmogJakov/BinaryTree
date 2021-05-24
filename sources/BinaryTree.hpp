@@ -2,6 +2,7 @@
 #include <iostream>
 #include <stack>
 #include <queue>
+#include <sstream>
 using namespace std;
 
 namespace ariel {
@@ -42,9 +43,12 @@ namespace ariel {
                         temp.parent = it.node;
                         it.node->left = &temp;
                     } else {it.node->left->value = v2;}
+                    return *this;
                 }
             }
-            return *this;
+            ostringstream ostr;
+            ostr << "could not find " << v;
+            throw invalid_argument(ostr.str());
         }
 
         BinaryTree& add_right(T v, T v2) {
@@ -58,9 +62,12 @@ namespace ariel {
                         temp.parent = it.node;
                         it.node->right = &temp;
                     } else {it.node->right->value = v2;}
+                    return *this;
                 }
             }
-            return *this;
+            ostringstream ostr;
+            ostr << "could not find " << v;
+            throw invalid_argument(ostr.str());
         }
 
         /* credit: https://www.geeksforgeeks.org/iterative-preorder-traversal */
