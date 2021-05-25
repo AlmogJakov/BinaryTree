@@ -310,3 +310,51 @@ TEST_CASE("postorder test") {
     }  // prints: four five two three one 
     CHECK(result.str() == "four five two three one ");
 }
+
+    //////////////////////////////////////////////////////////////////////////////
+    /////////////////////////// ++(int) operator test ////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////
+
+TEST_CASE("preorder test") {
+    BinaryTree<int> tree_of_ints;
+    tree_of_ints.add_root(1)
+    .add_left(1, 9)
+    .add_left(9, 4)
+    .add_right(9, 5)
+    .add_right(1, 3)
+    .add_left(1, 2)
+    .add_right(3, 6)
+    .add_right(5, 7)
+    .add_left(4, 8);
+    stringstream result;
+    
+    // full preorder: 1 2 4 8 5 7 3 6 
+    auto it_preorder=tree_of_ints.begin_preorder();
+    result << (*it_preorder) << " " ;
+    it_preorder+2;
+    result << (*it_preorder) << " " ;
+    it_preorder+3;
+    for (; it_preorder!=tree_of_ints.end_preorder(); ++it_preorder) {result << (*it_preorder) << " " ;}
+    CHECK(result.str() == "1 4 7 3 6 ");
+    result.str("");
+
+    // full inorder: 8 4 2 5 7 1 3 6 
+    auto it_inorder=tree_of_ints.begin_inorder();
+    result << (*it_inorder) << " " ;
+    it_inorder+2;
+    result << (*it_inorder) << " " ;
+    it_inorder+3;
+    for (; it_inorder!=tree_of_ints.end_inorder(); ++it_inorder) {result << (*it_inorder) << " " ;}
+    CHECK(result.str() == "8 2 1 3 6 ");
+    result.str("");
+
+    // full postorder: 8 4 7 5 2 6 3 1 
+    auto it_postorder=tree_of_ints.begin_postorder();
+    result << (*it_postorder) << " " ;
+    it_postorder+2;
+    result << (*it_postorder) << " " ;
+    it_postorder+3;
+    for (; it_postorder!=tree_of_ints.end_postorder(); ++it_postorder) {result << (*it_postorder) << " " ;}
+    CHECK(result.str() == "8 7 6 3 1 ");
+    result.str("");
+}

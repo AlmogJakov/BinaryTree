@@ -91,6 +91,10 @@ namespace ariel {
                 if (node->left) {stack.push(node->left);}
                 return *this;
             }
+            iterator_preorder& operator+(int num) {
+                for (int i = 0; i < num; i++) {this->operator++();}
+                return *this;
+            }
             int size() {return string(node->value).size();}
             bool operator!=(const iterator_preorder& other) {return node != other.node;}
             iterator_preorder* operator->() {return this;}
@@ -125,6 +129,10 @@ namespace ariel {
                 stack.pop();
                 return *this;
             }
+            iterator_inorder& operator+(int num) {
+                for (int i = 0; i < num; i++) {this->operator++();}
+                return *this;
+            }
             int size() {return string(node->value).size();}
             bool operator!=(const iterator_inorder& other) {return node != other.node;}
             iterator_inorder* operator->() {return this;}
@@ -156,6 +164,10 @@ namespace ariel {
                 }
                 node = stack2.top();
                 stack2.pop();
+                return *this;
+            }
+            iterator_postorder& operator+(int num) {
+                for (int i = 0; i < num; i++) {this->operator++();}
                 return *this;
             }
             int size() {return string(node->value).size();}
