@@ -27,13 +27,17 @@ namespace ariel {
         }
         
         BinaryTree& add_root(T v) {
+            if (head!=nullptr) {
+                head->value = v;
+                return *this;
+            }
             Node& temp = *(new Node(v));
             head = &temp;
             return *this;
         }
 
         BinaryTree& add_left(T v, T v2) {
-            if (head==nullptr) {throw invalid_argument("null head!");}
+            if (head==nullptr) {throw invalid_argument("null root!");}
             /* The form of postorder() implementation is by fully inserting all the tree nodes
                into a stack before retrieving any of them so the tree can be changed while running */
             for (auto it=(*this).begin_postorder(); it!=(*this).end_postorder(); ++it) {
